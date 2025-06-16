@@ -3,3 +3,6 @@ def format_check(list,i):
         return True
     else:
         return False
+    
+def print_forecast(list):
+    print('placeholder')
