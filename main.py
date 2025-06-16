@@ -47,19 +47,28 @@ location = location['daily']
 #print(type(location))
 #print(location)
 
-#'date', 'summary', '
-
+#'date', 'summary', 'periodLabel', periodID', 'temperatureText', 'titleText'
+#{location[i]['date'],location[i]['summary'],location[i]['periodLabel'],location[i]['periodID'],location[i]['temperatureText'],location[i+1]['titleText']}
 date_list = []
-for i in range (len(location)):
+i = 0
+
+while i < len(location):
     if type(location[i]) is dict:
-        if 'date' in location[i]:
-            date_list.append(location[i])
+        if 'date' in location[i] and 'summary' in location[i] and 'periodLabel' in location[i] and 'temperatureText' in location[i] and 'titleText' in location[i]:
+            comma_loc = location[i]['periodLabel'].find(",")
+            if comma_loc != -1:
+                location[i]['periodLabel'] = location[i]['periodLabel'][0:comma_loc]
+            date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'weekday':location[i]['periodLabel'],'high':location[i]['temperatureText'],'titleText':location[i]['titleText']})
+    i+=2
 
 #print(date_list)
-#print(date_list[0].keys())
+for i in range (len(date_list)):
+    print("Date: ", date_list[i]['date'], "(", date_list[i]['weekday'], ")", "\n")
+    print("Summary: ", date_list[i]['summary'], "\n")
+    #print(date_list[0].keys())
 #['date', 'summary', 'periodID', 'periodLabel', 'windChill', 'sun', 'temperatureText', 'humidex', 'precip', 'frost', 'titleText', 'temperature', 'iconCode', 'text']
-print(date_list[0]['periodID'])
 
+print(date_list)
 
 
 
