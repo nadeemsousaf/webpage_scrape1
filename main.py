@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
+from helper import *
 
 URL = "https://weather.gc.ca/en/location/index.html?coords=45.403,-75.687"
 req = requests.get(URL)
@@ -45,30 +46,30 @@ location = (location['45.40300000--75.68700000'])
 location = location['forecast']
 location = location['daily']
 #print(type(location))
-#print(location)
+print(location)
 
-#'date', 'summary', 'periodLabel', periodID', 'temperatureText', 'titleText'
+#'date', 'summary', periodID', 'temperatureText', 'titleText'
 #{location[i]['date'],location[i]['summary'],location[i]['periodLabel'],location[i]['periodID'],location[i]['temperatureText'],location[i+1]['titleText']}
 date_list = []
 i = 0
+print(location[1])
 
 while i < len(location):
     if type(location[i]) is dict:
-        if 'date' in location[i] and 'summary' in location[i] and 'periodLabel' in location[i] and 'temperatureText' in location[i] and 'titleText' in location[i]:
-            comma_loc = location[i]['periodLabel'].find(",")
-            if comma_loc != -1:
-                location[i]['periodLabel'] = location[i]['periodLabel'][0:comma_loc]
-            date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'weekday':location[i]['periodLabel'],'high':location[i]['temperatureText'],'titleText':location[i]['titleText']})
-    i+=2
+        if format_check(location,i):
+            date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'high':location[i]['temperatureText'],'titleText':location[i]['titleText']})
+    i += 1
 
-#print(date_list)
+'''
 for i in range (len(date_list)):
-    print("Date: ", date_list[i]['date'], "(", date_list[i]['weekday'], ")", "\n")
+    print("Date: ", date_list[i]['date'], "\n")
     print("Summary: ", date_list[i]['summary'], "\n")
+    print("High/Low: ", date_list[i]['high'], "\n")
     #print(date_list[0].keys())
+'''
 #['date', 'summary', 'periodID', 'periodLabel', 'windChill', 'sun', 'temperatureText', 'humidex', 'precip', 'frost', 'titleText', 'temperature', 'iconCode', 'text']
 
-print(date_list)
+#print(date_list)
 
 
 
