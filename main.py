@@ -71,20 +71,19 @@ while i < len(location):
             date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'high':location[i]['temperatureText'],'titleText':location[i]['titleText']})
     i += 1
 
-'''
+
 for i in range (len(date_list)):
-    print("Date: ", date_list[i]['date'], "\n")
-    print("Summary: ", date_list[i]['summary'], "\n")
-    print("High/Low: ", date_list[i]['high'], "\n")
-    #print(date_list[0].keys())
-'''
+    print("Date: " + date_list[i]['date'] + "\n")
+    print("Summary: " + date_list[i]['summary'] + "\n")
+    print("High/Low: " + date_list[i]['high'] + "0°C\n")
+
 
 #['date', 'summary', 'periodID', 'periodLabel', 'windChill', 'sun', 'temperatureText', 'humidex', 'precip', 'frost', 'titleText', 'temperature', 'iconCode', 'text']
 
 #print(date_list)
 
 print(current_temp)
-print(date_list)
+
 
 
 
