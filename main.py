@@ -3,10 +3,11 @@ from bs4 import BeautifulSoup
 import json
 import re
 from helper import *
-import sqlite3
+from table_manager import *
 
 ERR_OK = 200
 ERR_NOT_FOUND = 404
+
 
 URL = "https://weather.gc.ca/en/location/index.html?coords=45.403,-75.687"
 req = requests.get(URL)
@@ -62,13 +63,12 @@ location = location['daily']
 #'date', 'summary', periodID', 'temperatureText', 'titleText'
 #{location[i]['date'],location[i]['summary'],location[i]['periodLabel'],location[i]['periodID'],location[i]['temperatureText'],location[i+1]['titleText']}
 date_list = []
-i = 0
-#print(location)
 
+i = 0
 while i < len(location):
     if type(location[i]) is dict:
         if format_check(location,i):
-            date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'high':location[i]['temperatureText'],'titleText':location[i]['titleText']})
+            date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'high':location[i]['temperatureText'], 'periodLabel':location[i]['periodLabel']})
     i += 1
 
 
