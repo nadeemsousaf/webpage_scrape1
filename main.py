@@ -1,9 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-import re
 from helper import *
-from table_manager import *
 
 ERR_OK = 200
 ERR_NOT_FOUND = 404
@@ -68,14 +66,22 @@ i = 0
 while i < len(location):
     if type(location[i]) is dict:
         if format_check(location,i):
-            date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'high':location[i]['temperatureText'], 'periodLabel':location[i]['periodLabel']})
+            insert_val = {'DaySummary':None,'NightSummary':None,'High':None,'Low':None}
+            if ("Night" in location[i]['periodLabel'] or "Tonight" in location[i]['periodLabel']):
+                insert_val['NightSummary'] = location[i]['periodLabel']
+            else:
+                insert_val['DaySummary'] = location[i]['periodLabel']
+            if ("High" in location[i]['temperatureText']):
+                insert_val['High'] = int(re.search(r'\d+', location[i]['temperatureText']).group())
+            else:
+                insert_val['Low'] = int(re.search(r'\d+', location[i]['temperatureText']).group())
+            insert_tuple = (location[i]['date'], insert_val['High'], insert_val['Low'], insert_val['DaySummary'], insert_val['NightSummary'])
+            date_list.append({'date':location[i]['date'],'summary':location[i]['summary'],'high':re.search(r'\d+', location[i]['temperatureText']).group(), 'periodLabel':location[i]['periodLabel']})
+            #cursor.execute("INSERT INTO table (Date, High, Low, DaySummary, NightSummary) VALUES (%s, %s)", ())
     i += 1
 
 
-for i in range (len(date_list)):
-    print("Date: " + date_list[i]['date'] + "\n")
-    print("Summary: " + date_list[i]['summary'] + "\n")
-    print("High/Low: " + date_list[i]['high'] + "0°C\n")
+print_forecast(date_list)
 
 
 #['date', 'summary', 'periodID', 'periodLabel', 'windChill', 'sun', 'temperatureText', 'humidex', 'precip', 'frost', 'titleText', 'temperature', 'iconCode', 'text']
