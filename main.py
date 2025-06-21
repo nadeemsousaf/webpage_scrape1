@@ -87,7 +87,7 @@ print(current_temp) #relevant
 
 '''
 add_all_data(location)
-print_test()
+print_forecast()
 
 
 

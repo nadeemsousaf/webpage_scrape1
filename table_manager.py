@@ -1,5 +1,7 @@
 import sqlite3
 
+None_placeholder = "None"
+
 connect_db = sqlite3.connect("forecast.db")
 mycursor = connect_db.cursor()
 mycursor.execute("DROP TABLE IF EXISTS FORECAST")
@@ -28,7 +30,7 @@ def add_table_row(insert_tuple):
         insert_list = []
         i = 0
         while i < len(query_result[0]):
-            if (insert_tuple[i] == None):
+            if (insert_tuple[i] == None_placeholder):
                 insert_list.append(query_result[0][i])
             else:
                 insert_list.append(insert_tuple[i])
@@ -38,7 +40,9 @@ def add_table_row(insert_tuple):
     else:
         mycursor.execute("INSERT INTO FORECAST (Date, High, Low, DaySummary, NightSummary) VALUES (?,?,?,?,?)", (insert_tuple[0],insert_tuple[1],insert_tuple[2],insert_tuple[3],insert_tuple[4],))
 
-def print_test():
+def get_all_data():
     mycursor.execute("SELECT * FROM FORECAST")
-    
+    return mycursor.fetchall()
+
+
 

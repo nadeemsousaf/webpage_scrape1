@@ -10,7 +10,7 @@ def format_check(dict_row):
 def prepare_data(dict_row):
     if type(dict_row) is dict:
         if format_check(dict_row):
-            insert_val = {'Date':dict_row['date'],'DaySummary':None,'NightSummary':None,'High':None,'Low':None}
+            insert_val = {'Date':dict_row['date'],'DaySummary':None_placeholder,'NightSummary':None_placeholder,'High':None_placeholder,'Low':None_placeholder}
             if ("Night" in dict_row['periodLabel'] or "Tonight" in dict_row['periodLabel']):
                 insert_val['NightSummary'] = dict_row['summary']
             else:
@@ -31,8 +31,7 @@ def add_all_data(list):
         i += 1
 
 
-def print_forecast(list): #change to pull from database- obsolete
-    for i in range (len(list)):
-        print("Date: " + list[i]['date'] + "\n")
-        print("Summary: " + list[i]['summary'] + "\n")
-        print("High/Low: " + list[i]['high'] + "°C\n")
+def print_forecast():
+    data = get_all_data()
+    for i in range(len(data)):
+        print("Date: "+data[i][0]+" | High: "+ str(data[i][1])+"°C | Low: "+str(data[i][2])+"°C | Day Summary: "+data[i][3]+" | Night Summary: "+data[i][4]+"\n")
