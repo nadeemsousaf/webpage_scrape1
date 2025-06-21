@@ -39,11 +39,11 @@ for s in script_tags:
         pass
 
 try:
-    if json_data != "":
+    if json_data != "": #check this
         print("ok")
 
 except:
-    print("Error parsing webpage metadata, exiting program")
+    print("Error parsing webpage metadata, exiting program") #error handle
     exit()
 
 headers = json_data.keys()
@@ -60,6 +60,7 @@ location = location['daily']
 
 #'date', 'summary', periodID', 'temperatureText', 'titleText'
 #{location[i]['date'],location[i]['summary'],location[i]['periodLabel'],location[i]['periodID'],location[i]['temperatureText'],location[i+1]['titleText']}
+'''
 date_list = []
 
 i = 0
@@ -82,13 +83,12 @@ while i < len(location):
 
 
 print_forecast(date_list)
+print(current_temp) #relevant
 
+'''
+add_all_data(location)
+print_test()
 
-#['date', 'summary', 'periodID', 'periodLabel', 'windChill', 'sun', 'temperatureText', 'humidex', 'precip', 'frost', 'titleText', 'temperature', 'iconCode', 'text']
-
-#print(date_list)
-
-print(current_temp)
 
 
 
