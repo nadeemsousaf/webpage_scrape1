@@ -13,10 +13,12 @@ def init():
             current_temp = webpage_data[1]
             data = script_walk(json_data)
             if data != ERR_NOT_FOUND:
-                add_all_data(data,mycursor)
-                print_forecast(mycursor,current_temp)
-                myconnect.close()
-                return ERR_OK
+                if add_all_data(data,mycursor) != ERR_NOT_FOUND:
+                    print_forecast(mycursor,current_temp)
+                    myconnect.close()
+                    return ERR_OK
+                else:
+                    print("Error, formatting in structure has changed, exiting program")
             else:
                 print("Error walking pulled script data, exiting program")
             

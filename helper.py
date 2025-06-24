@@ -39,7 +39,7 @@ def search():
         except:
             return ERR_NOT_FOUND
         
-def script_walk(data):
+def script_walk(data): #heavily hardcoded
     try:
         data = data['location']
         data = (data['location'])
@@ -70,14 +70,19 @@ def prepare_data(dict_row,mycursor):
                 insert_val['Low'] = int(re.search(r'\d+', dict_row['temperatureText']).group())
             insert_tuple = (insert_val['Date'], insert_val['High'], insert_val['Low'], insert_val['DaySummary'], insert_val['NightSummary'])
             add_table_row(insert_tuple,mycursor)
+        else:
+            return ERR_NOT_FOUND
     else:
         pass #contains bools
 
 def add_all_data(list,mycursor):
     i = 0
     while i < len(list):
-        prepare_data(list[i],mycursor)
-        i += 1
+        if prepare_data(list[i],mycursor) != ERR_NOT_FOUND:
+            i += 1
+        else:
+            return ERR_NOT_FOUND
+    return ERR_OK
 
 
 def print_forecast(mycursor,current_temp):
