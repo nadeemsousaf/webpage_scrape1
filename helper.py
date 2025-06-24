@@ -80,7 +80,8 @@ def add_all_data(list,mycursor):
         i += 1
 
 
-def print_forecast(mycursor):
+def print_forecast(mycursor,current_temp):
     data = get_all_data(mycursor)
     for i in range(len(data)):
         print("Date: "+data[i][0]+" | High: "+ str(data[i][1])+"°C | Low: "+str(data[i][2])+"°C | Day Summary: "+data[i][3]+" | Night Summary: "+data[i][4]+"\n")
+    print("Current Temperature: "+current_temp+"\n")

@@ -8,13 +8,13 @@ def init():
         mycursor = table_var[0]
         myconnect = table_var[1]
         webpage_data = search()
-        if webpage_data != ERR_NOT_FOUND: #check this
+        if webpage_data != ERR_NOT_FOUND:
             json_data = webpage_data[0]
             current_temp = webpage_data[1]
             data = script_walk(json_data)
             if data != ERR_NOT_FOUND:
                 add_all_data(data,mycursor)
-                print_forecast(mycursor)
+                print_forecast(mycursor,current_temp)
                 myconnect.close()
                 return ERR_OK
             else:
