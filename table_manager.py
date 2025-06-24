@@ -1,21 +1,25 @@
 import sqlite3
 
+ERR_OK = 200
+ERR_NOT_FOUND = 404
 None_placeholder = "None"
 
-connect_db = sqlite3.connect("forecast.db")
-mycursor = connect_db.cursor()
-mycursor.execute("DROP TABLE IF EXISTS FORECAST")
-table = """ CREATE TABLE FORECAST (
-            Date VARCHAR(255) NOT NULL,
-            High INT,
-            Low INT,
-            DaySummary VARCHAR(255),
-            NightSummary VARCHAR(255)
-        ); """
-mycursor.execute(table)
-#connect_db.close() #put in main.py
+def make_table():
+    connect_db = sqlite3.connect("forecast.db")
+    mycursor = connect_db.cursor()
+    mycursor.execute("DROP TABLE IF EXISTS FORECAST")
+    table = """ CREATE TABLE FORECAST (
+                Date VARCHAR(255) NOT NULL,
+                High INT,
+                Low INT,
+                DaySummary VARCHAR(255),
+                NightSummary VARCHAR(255)
+            ); """
+    mycursor.execute(table)
+    return (mycursor,connect_db)
+    #connect_db.close() #put in main.py
 
-def check_exists(date):
+def check_exists(date,mycursor):
     mycursor.execute("SELECT * from FORECAST where Date = ?", (date,))
     result = mycursor.fetchall()
     if (len(result) < 1):
@@ -23,8 +27,8 @@ def check_exists(date):
     else:
         return result
 
-def add_table_row(insert_tuple):
-    query_result = check_exists(insert_tuple[0])
+def add_table_row(insert_tuple,mycursor):
+    query_result = check_exists(insert_tuple[0],mycursor)
     #print(query_result)
     if query_result != False:
         insert_list = []
@@ -40,7 +44,7 @@ def add_table_row(insert_tuple):
     else:
         mycursor.execute("INSERT INTO FORECAST (Date, High, Low, DaySummary, NightSummary) VALUES (?,?,?,?,?)", (insert_tuple[0],insert_tuple[1],insert_tuple[2],insert_tuple[3],insert_tuple[4],))
 
-def get_all_data():
+def get_all_data(mycursor):
     mycursor.execute("SELECT * FROM FORECAST")
     return mycursor.fetchall()
 
