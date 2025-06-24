@@ -4,7 +4,8 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-
+ERR_OK = 200
+ERR_NOT_FOUND = 404
 URL = "https://weather.gc.ca/en/location/index.html?coords=45.403,-75.687"
 
 
@@ -39,12 +40,15 @@ def search():
             return ERR_NOT_FOUND
         
 def script_walk(data):
-    data = data['location']
-    data = (data['location'])
-    data = (data['45.40300000--75.68700000'])
-    data = data['forecast']
-    data = data['daily']
-    return data
+    try:
+        data = data['location']
+        data = (data['location'])
+        data = (data['45.40300000--75.68700000'])
+        data = data['forecast']
+        data = data['daily']
+        return data
+    except:
+        return ERR_NOT_FOUND
 
 def format_check(dict_row):
     if 'date' in dict_row and 'summary' in dict_row and 'temperatureText' in dict_row:

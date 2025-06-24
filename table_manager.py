@@ -1,7 +1,5 @@
 import sqlite3
 
-ERR_OK = 200
-ERR_NOT_FOUND = 404
 None_placeholder = "None"
 
 def make_table():
@@ -17,7 +15,6 @@ def make_table():
             ); """
     mycursor.execute(table)
     return (mycursor,connect_db)
-    #connect_db.close() #put in main.py
 
 def check_exists(date,mycursor):
     mycursor.execute("SELECT * from FORECAST where Date = ?", (date,))

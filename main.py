@@ -11,17 +11,23 @@ def init():
         if webpage_data != ERR_NOT_FOUND: #check this
             json_data = webpage_data[0]
             current_temp = webpage_data[1]
-            headers = json_data.keys()
             data = script_walk(json_data)
-            add_all_data(data,mycursor)
-            print_forecast(mycursor)
+            if data != ERR_NOT_FOUND:
+                add_all_data(data,mycursor)
+                print_forecast(mycursor)
+                myconnect.close()
+                return ERR_OK
+            else:
+                print("Error walking pulled script data, exiting program")
+            
+        else:
+            print("Error parsing webpage metadata, exiting program")
             
     except:
         print("Error parsing webpage metadata, exiting program")
-        return ERR_NOT_FOUND
-        exit()
-        
+
     myconnect.close()
+    return ERR_NOT_FOUND
 
 
 init()
